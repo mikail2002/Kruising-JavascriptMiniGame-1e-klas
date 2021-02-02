@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>verkeer1.html</title>
+  </head>
+  <body background="kruising.png">
+  <form>
+    <h1>Verkeer1.html</h1>
+    <input type="button" value="aanzetten" onclick="aanzetten()">
+    <input type="button" value="knipperen" onclick="knipperen()">
+    <input type="button" value="uitzetten" onclick="uitzetten()">
+    <input type="button" value="start" onclick="starten()">
+    <input type="button" value="stop" onclick="stop()">
+    <input type="button" value="opnieuw" onclick="opnieuw()">
+    <img id="stoplicht" src="stoplichtuit.png" width="30px" height="60px">
+    <img id="auto" src="autogroen.png" width="40px" height="80px">
+  </form>
+
+  <script>
+    var werken; // animatie heet 'werkend'
+    var buitenwerking; // andere animatie heet buitenwerking'
+    var stoplicht = document.getElementById('stoplicht');
+    var rijden; // animatie heet 'rijden'
+    var auto = document.getElementById('auto'); // object gekoppeld aan het plaatje
+    stoplicht.style.position = 'absolute';
+    stoplicht.style.left = '778px';
+    stoplicht.style.top = '480px';
+    auto.style.position = 'absolute';
+    auto.style.left = '715px';
+    auto.style.top = '800px';
+
+    function aanzetten() {
+      clearTimeout(buitenwerking);
+      maakRood();
+      werken = setTimeout(maakGroen, 4000); // na 4 sec groen maken
+      werken = setTimeout(maakGeel, 8000); // na 8 sec geel maken
+      werken = setTimeout(aanzetten, 10000); // en na 10 sec opnieuw aanzetten
+    }
+
+    function knipperen() {
+      clearTimeout(werken);
+      maakGeel();
+      buitenwerking = setTimeout(zetUit, 500); // na 500 msec uitzetten
+      buitenwerking = setTimeout(knipperen, 1000); // na 500 msec weer knipperen
+    }
+
+    function uitzetten() {
+      // deze functie zet de animaties van het stoplicht uitzetten
+      // dat is anders dan dat de funtie zetUit() doet
+      zetUit();
+      clearTimeout(buitenwerking);
+      clearTimeout(werken);
+    }
+
+    function maakRood() {
+      stoplicht.src = "stoplichtrood.png";
+    }
+    function maakGroen() {
+      stoplicht.src = "stoplichtgroen.png";
+    }
+    function maakGeel() {
+      stoplicht.src = "stoplichtgeel.png";
+    }
+    function zetUit() {
+      // deze funtie laat het plaatje met alle lampjes uit zien
+      // niet verwarren met de funtie uitzetten()
+      stoplicht.src = "stoplichtuit.png";
+    }
+    function starten() {
+      auto.style.top = parseInt(auto.style.top) - 5 + 'px';
+      rijden = setTimeout(starten, 10); // om de 10msec starten() aanroepen
+    }
+
+    function stop() {
+      clearTimeout(rijden);
+    }
+
+    function opnieuw() {
+      clearTimeout(rijden);
+      auto.style.top = '800px';
+    }
+  </script>
+  </body>
+</html>
